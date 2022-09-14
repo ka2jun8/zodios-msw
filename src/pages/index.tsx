@@ -6,10 +6,12 @@ import { getApiClient } from "../rest/client";
 
 type Props = {
   name: string;
+  email: string;
 };
 
-const Home: NextPage<Props> = ({ name }) => {
-  const [value, setName] = useState("");
+const Home: NextPage<Props> = ({ name, email }) => {
+  const [inputtedName, setName] = useState("");
+  const [inputtedEmail, setEmail] = useState("@example.com");
 
   return (
     <div className={styles.container}>
@@ -23,17 +25,30 @@ const Home: NextPage<Props> = ({ name }) => {
         <form
           onSubmit={async (e) => {
             e.preventDefault();
-            await getApiClient().postUser({ name: value });
+            await getApiClient().postUser({
+              name: inputtedName,
+              email: inputtedEmail,
+            });
             setName("");
+            setEmail("");
           }}
         >
           <label htmlFor="name">name:</label>
           <input
             id="name"
             type="text"
-            value={value}
+            value={inputtedName}
             onChange={(e) => setName(e.target.value)}
           />
+          <br />
+          <label htmlFor="email">email:</label>
+          <input
+            id="email"
+            type="text"
+            value={inputtedEmail}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <br />
           <button>Add User</button>
         </form>
       </main>
@@ -43,7 +58,7 @@ const Home: NextPage<Props> = ({ name }) => {
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const data = await getApiClient().getUser({ params: { id: 1 } });
-  return { props: { name: data.name } };
+  return { props: { name: data.name, email: data.email } };
 };
 
 export default Home;
