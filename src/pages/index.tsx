@@ -1,3 +1,4 @@
+import { ZodiosError } from "@zodios/core";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
@@ -25,12 +26,19 @@ const Home: NextPage<Props> = ({ name, email }) => {
         <form
           onSubmit={async (e) => {
             e.preventDefault();
-            await getApiClient().postUser({
-              name: inputtedName,
-              email: inputtedEmail,
-            });
-            setName("");
-            setEmail("");
+            try {
+              await getApiClient().postUser({
+                name: inputtedName,
+                email: inputtedEmail,
+              });
+              setName("");
+              setEmail("");
+            } catch (e: unknown) {
+              if (e instanceof ZodiosError) {
+                throw e.cause;
+              }
+              throw e;
+            }
           }}
         >
           <label htmlFor="name">name:</label>
