@@ -15,6 +15,29 @@ export const userApi = zodios
     path: "/user/:id",
     alias: "getUser",
     description: "Get a user",
+    parameters: [
+      {
+        name: "name",
+        description: "User Name",
+        type: "Query",
+        schema: z.string().optional(),
+      },
+    ],
+    response: userResponse,
+  })
+  .addEndpoint({
+    method: "get",
+    path: "/user",
+    alias: "getUserById",
+    description: "Get a user",
+    parameters: [
+      {
+        name: "userId",
+        description: "User ID",
+        type: "Query",
+        schema: z.string(),
+      },
+    ],
     response: userResponse,
   })
   .addEndpoint({

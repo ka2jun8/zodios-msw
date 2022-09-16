@@ -6,7 +6,18 @@ const users: User[] = [
 ];
 
 export const userApis = [
+  restGet("/user", (req, res, ctx) => {
+    const id = req.params.userId;
+    const data = users.find((u) => u.id === Number(id));
+
+    if (!data) {
+      return res(ctx.status(404));
+    }
+
+    return res(ctx.status(200), ctx.json(data));
+  }),
   restGet("/user/:id", (req, res, ctx) => {
+    // TODO: Path params
     const id = req.params.id;
     const data = users.find((u) => u.id === Number(id));
 
