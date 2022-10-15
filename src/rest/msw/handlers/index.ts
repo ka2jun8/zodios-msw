@@ -1,3 +1,4 @@
+import { todoApis } from "./todo";
 import { userApis } from "./user";
 
-export const handlers = [...userApis];
+export const handlers = [...userApis, ...todoApis];
