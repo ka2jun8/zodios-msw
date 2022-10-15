@@ -27,12 +27,20 @@ const Home: NextPage<Props> = ({ name, email }) => {
           onSubmit={async (e) => {
             e.preventDefault();
             try {
-              await getApiClient().postUser({
-                name: inputtedName,
-                email: inputtedEmail,
+              const response = await fetch("/api/postUser", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  name: inputtedName,
+                  email: inputtedEmail,
+                }),
               });
               setName("");
               setEmail("");
+              const user = await response.json();
+              alert(`created user: ${user.id}: ${user.name}`);
             } catch (e: unknown) {
               if (e instanceof ZodiosError) {
                 throw e.cause;

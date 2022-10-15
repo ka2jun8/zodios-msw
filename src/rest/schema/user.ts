@@ -1,4 +1,4 @@
-import * as zodios from "@zodios/core";
+import { makeApi } from "@zodios/core";
 import { z } from "zod";
 
 const userResponse = z.object({
@@ -9,15 +9,15 @@ const userResponse = z.object({
 
 export type User = z.infer<typeof userResponse>;
 
-export const userApi = zodios
-  .apiBuilder({
+export const userApi = makeApi([
+  {
     method: "get",
     path: "/user/:id",
     alias: "getUser",
     description: "Get a user",
     response: userResponse,
-  })
-  .addEndpoint({
+  },
+  {
     method: "post",
     path: "/user/:id",
     alias: "postUser",
@@ -34,5 +34,5 @@ export const userApi = zodios
     ],
     description: "Create a user",
     response: userResponse,
-  })
-  .build();
+  },
+]);
