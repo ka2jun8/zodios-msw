@@ -36,4 +36,12 @@ export const todoApi = makeApi([
     description: "Create a todo",
     response: todo,
   },
+  {
+    method: "post",
+    path: "/todo/:id/done",
+    alias: "doneTodo",
+    parameters: [],
+    description: "When the todo is done",
+    response: z.undefined(),
+  },
 ]);

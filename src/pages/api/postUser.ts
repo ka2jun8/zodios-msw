@@ -6,6 +6,8 @@ export default async function postUser(
   res: NextApiResponse
 ) {
   const body = req.body;
-  const data = await getApiClient().postUser(body);
+  const data = await getApiClient().postUser(body, {
+    params: { id: req.query.id as string },
+  });
   return res.status(200).json(data);
 }
